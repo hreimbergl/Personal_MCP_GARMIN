@@ -100,7 +100,8 @@ function normalizeScheme(scheme: string): string {
 async function requestToken(): Promise<CachedToken> {
   const res = await fetch(`${baseUrl()}${TOKEN_PATH}`, {
     method: "POST",
-    headers: { Authorization: `ApiKey ${apiKey()}`, Accept: "application/json" },
+    // El endpoint responde 406 si se pide application/json: el token no viene como JSON.
+    headers: { Authorization: `ApiKey ${apiKey()}`, Accept: "*/*" },
     cache: "no-store",
   });
   const body = await res.text();
